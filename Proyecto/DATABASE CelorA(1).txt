@@ -1,0 +1,112 @@
+CREATE DATABASE CelorA;
+
+CREATE TABLE stock (
+    code INT AUTO_INCREMENT PRIMARY KEY, //SE CAMBIO A INT
+    quantity INT
+);
+
+CREATE TABLE paymentType (
+    code VARCHAR(4) PRIMARY KEY,
+    type VARCHAR(35) NOT NULL
+);
+
+CREATE TABLE department (
+    code VARCHAR(5) PRIMARY KEY,
+    name VARCHAR(35) NOT NULL
+);
+
+CREATE TABLE supplier (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(35) NOT NULL,
+    lastName VARCHAR(35) NOT NULL,
+    secondLastName VARCHAR(35),
+    legalName VARCHAR(55) NOT NULL
+);
+
+CREATE TABLE quotation (
+    id VARCHAR(8) PRIMARY KEY,   //Se cambio de VARCHAR(6) a int-DESCARTADO   //sE REGRESO A VARCHAR PERO AHORA DE 8
+    issueDate DATE,
+    total FLOAT(10,2),
+    subtotal FLOAT(10,2)
+    supplierId INT,
+    file LONGBLOB,//Se agrego el atributo file para poder almacenar el archivo del doc de la cotizacion
+    FOREIGN KEY (supplierId) REFERENCES supplier(id)
+    
+);
+
+CREATE TABLE product (
+    code INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price FLOAT(10,2) NOT NULL,
+    description VARCHAR(150) NOT NULL,
+    stockCode INT,
+    FOREIGN KEY (stockCode) REFERENCES stock(code)
+);
+
+CREATE TABLE employee (
+    employeeNumber INT PRIMARY KEY,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    secondLastName VARCHAR(100),
+    departmentCode VARCHAR(5),
+    password VARCHAR(8) NOT NULL,
+    userType VARCHAR(2), //Se agrego esta wea
+    FOREIGN KEY (departmentCode) REFERENCES department(code)
+);
+
+CREATE TABLE purchaseOrder (
+    id INT AUTO_INCREMENT PRIMARY KEY,  //SE CAMBIO DE VARCHAR(6) A INT
+    requiredQuantity INT NOT NULL,
+    requiredDate DATE NOT NULL,
+    total FLOAT(10,2),
+    subtotal FLOAT(10,2)//Se quito el atributo proveedor y se paso a cotizacion
+    
+);
+
+CREATE TABLE payment (
+    id INT PRIMARY KEY,
+    reference VARCHAR(30) NOT NULL,
+    concept VARCHAR(50) NOT NULL,
+    paymentTypeCode VARCHAR(4),
+    purchaseOrderId INT,
+    FOREIGN KEY (paymentTypeCode) REFERENCES paymentType(code),
+    FOREIGN KEY (purchaseOrderId) REFERENCES purchaseOrder(id)
+);
+
+CREATE TABLE requisition (
+    id INT AUTO_INCREMENT PRIMARY KEY, //SE CAMBIO DE VARCHAR(6) A INT
+    requiredQuantity INT NOT NULL,
+    date DATE NOT NULL,
+    description VARCHAR(100),
+    requester INT,
+    authorizer INT,
+    FOREIGN KEY (requester) REFERENCES employee(employeeNumber),
+    FOREIGN KEY (authorizer) REFERENCES employee(employeeNumber)
+);
+
+CREATE TABLE product_requisition (
+    productCode INT,
+    requisitionId INT,
+    quantity INT, //Se agrego el atributo de cantidad por producto
+    PRIMARY KEY (productCode, requisitionId),
+    FOREIGN KEY (productCode) REFERENCES product(code),
+    FOREIGN KEY (requisitionId) REFERENCES requisition(id)
+);
+
+CREATE TABLE report (
+    id INT PRIMARY KEY,
+    requisitionId INT,
+    purchaseOrderId INT,
+    quotationId VARCHAR(8), // Se cambio de VARCHAR(6) a int-DESCARTADO //sE CAMBIO A VARCHA(8)
+    FOREIGN KEY (requisitionId) REFERENCES requisition(id),
+    FOREIGN KEY (purchaseOrderId) REFERENCES purchaseOrder(id),
+    FOREIGN KEY (quotationId) REFERENCES quotation(id)
+);
+
+
+
+
+
+
+
+

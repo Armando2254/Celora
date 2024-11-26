@@ -1,0 +1,219 @@
+:root,
+[data-bs-theme=light] {
+  --bs-blue: #0d6efd;
+  --bs-yellow: #ffc107;
+  --bs-green: #198754;
+  --bs-teal: #20c997;
+  --bs-cyan: #0dcaf0;
+  --bs-black: #000;
+  --bs-white: #fff;
+  --bs-gray: #6c757d;
+  --bs-gray-dark: #343a40;
+  --v5: #f0f0f0;
+  --v6: #519668;
+  --v7: #f5f5dc;
+  --v8: #45b96d;
+  --v8: #50c878;
+}
+
+
+/* Estilo general para la tarjeta */
+.custom-card {
+    max-width: 1000px; /* Aumenta el ancho máximo */
+    width: 1000px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Imagen dentro de la tarjeta */
+  .custom-card .img-fluid {
+    margin-top: 30px;
+    max-height: 280px; /* Ajusta la altura máxima de la imagen */
+    object-fit: cover; /* Asegura que la imagen mantenga proporciones */
+  }
+  
+  /* Título de la tarjeta */
+  .custom-card .card-title {
+    font-size: 2.3rem; /* Tamaño de letra del título */
+    font-weight: bold; /* Negritas */
+    margin-bottom: 10px; /* Espaciado debajo del título */
+  }
+  
+  /* Texto del cuerpo de la tarjeta */
+  .custom-card .card-text {
+    font-size: 3rem; /* Tamaño de letra más pequeño para el texto */
+    line-height: 1.6; /* Espaciado entre líneas para mejorar la lectura */
+    color: #333; /* Color del texto */
+  }
+  .custom-card img {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho de su contenedor */
+    height: auto; /* Mantiene las proporciones */
+    max-height: 400px; /* Ajusta la altura máxima si es necesario */
+    object-fit: cover; /* Asegura que la imagen se recorte de manera adecuada si es más grande */
+    border-radius: 10px; /* Bordes redondeados para consistencia */
+  }
+  /* Ajustes de tamaño para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .custom-card {
+      max-width: 100%; /* Ancho completo en dispositivos pequeños */
+    }
+    .custom-card .card-title {
+      font-size: 1.5rem; /* Reduce el tamaño del título en pantallas pequeñas */
+    }
+    .custom-card .card-text {
+      font-size: 0.9rem; /* Texto más compacto en dispositivos pequeños */
+    }
+  }
+  
+  
+  /* Adaptación a pantallas grandes */
+  @media (min-width: 992px) {
+    .who-are-we {
+      flex-direction: row; /* Pasa a disposición horizontal */
+      align-items: center;
+    }
+  
+    .text-container {
+      text-align: start; /* Alineación inicial */
+    }
+  }
+  
+  /* Adaptación a pantallas pequeñas */
+  @media (max-width: 992px) {
+    .who-are-we {
+      flex-direction: column; /* Apila contenido */
+    }
+  
+    .text-container h1 {
+      font-size: 2rem; /* Reduce el tamaño del título en pantallas pequeñas */
+    }
+  
+    .text-container p {
+      font-size: 1rem; /* Reduce el tamaño del texto */
+    }
+  
+    .image-container img {
+      margin-top: 1.5rem; /* Espaciado adicional en pantallas pequeñas */
+    }
+  }
+  
+  /* Ajustes para evitar que la imagen se una a la barra de navegación */
+  body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+    /* El margen de 10px podría no ser necesario */
+    /* margin: 10px; */
+  }
+  
+ /* Barra de navegación */
+
+/*Barra de Navegacion*/
+.navbar{
+    background-color: var(--v8);
+    padding: 0.5rem 1rem; 
+    height: auto;   
+}
+/* Cambiar color de los enlaces de navegación */
+.navbar .navbar-nav .nav-link {
+  color: var(--v7); /* Cambia al color deseado */
+}
+
+/* Cambiar el color al pasar el mouse */
+.navbar .navbar-nav .nav-link:hover {
+  color: var(--bs-black); /* Cambia al color deseado */
+}
+.navbar-brand {
+    display: flex;        /* Asegura que el logo esté centrado */
+    align-items: start;  /* Centra verticalmente */
+    color:var(--v6);      
+  }
+  .logo-navbar {
+    max-height: 60px; /* Controla la altura máxima */
+    width: auto;      /* Mantiene proporciones */
+  }
+.btn-custom {
+    background-color: #d3d3d3; /* Color inicial */
+    border: none;
+    color: var(--v5);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition:background-color .3s ease, transform 0.2s ease; /* Transición para color y escala */
+}
+.btn-custom:hover {
+    background-color: #c0c0c0; /* Un gris más oscuro al pasar el mouse */
+}
+.btn-custom:active {
+  transform: scale(0.95);
+  border:2px solid #000;
+  color: #000;
+} 
+/* pie de página */
+.footer-custom {
+    background-color: var(--v8); /* Color de fondo desde las variables */
+    color: var(--v7); /* Color del texto */
+    font-size: 0.9rem;
+  }
+  
+  .footer-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .footer-custom ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .footer-custom ul li a {
+    text-decoration: none;
+    color: var(--v7); /* Mismo color que el texto */
+  }
+  
+  .footer-custom ul li a:hover {
+    color: var(--bs-black); /* Cambia de color al pasar el mouse */
+  }
+  
+  .social-icon {
+    text-decoration: none;
+    color: var(--v7);
+    font-weight: bold;
+  }
+  
+  .social-icon:hover {
+    color: var(--bs-black);
+  }
+  
+  .custom-card {
+    margin: 20px auto; /* 20px de margen arriba y abajo, centrado automáticamente */
+    max-width: 900px;  /* Ancho máximo para evitar que sea muy grande */
+  }
+  
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1; /* Asegura que la tarjeta se muestre encima de otros elementos si es necesario */
+  }
+  
+/* Ajustar el título */
+.custom-card .card-title {
+    font-weight: bold; /* Hace el título en negrita */
+    font-size: 1.5rem; /* Aumenta el tamaño del título */
+    color: var(--v6); /* Color personalizado para el título */
+  }
+  
+  /* Ajustar el texto del cuerpo */
+  .custom-card .card-text {
+    font-size: 0.9rem; /* Disminuye el tamaño del texto */
+    color: var(--bs-gray-dark); /* Cambia el color del texto */
+  }
+  

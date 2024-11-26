@@ -1,0 +1,212 @@
+
+:root,
+[data-bs-theme=light] {
+  --bs-blue: #0d6efd;
+  --bs-yellow: #ffc107;
+  --bs-green: #198754;
+  --bs-teal: #20c997;
+  --bs-cyan: #0dcaf0;
+  --bs-black: #000;
+  --bs-white: #fff;
+  --bs-gray: #6c757d;
+  --bs-gray-dark: #343a40;
+  --v5: #f0f0f0;
+  --v6: #519668;
+  --v7: #f5f5dc;
+  --v8: #45b96d;
+  --v8: #50c878;
+}
+/*Barra de Navegacion*/
+.navbar{
+    background-color: var(--v8);
+    padding: 0.5rem 1rem; 
+    height: auto;   
+}
+/* Cambiar color de los enlaces de navegación */
+.navbar .navbar-nav .nav-link {
+  color: var(--v7); /* Cambia al color deseado */
+}
+
+/* Cambiar el color al pasar el mouse */
+.navbar .navbar-nav .nav-link:hover {
+  color: var(--bs-black); /* Cambia al color deseado */
+}
+.navbar-brand {
+    display: flex;        /* Asegura que el logo esté centrado */
+    align-items: start;  /* Centra verticalmente */
+    color:#f0f0f0;      
+  }
+  .logo-navbar {
+    max-height: 60px; /* Controla la altura máxima */
+    width: auto;      /* Mantiene proporciones */
+  }
+.btn-custom {
+    background-color: #d3d3d3; /* Color inicial */
+    border: none;
+    color: var(--v5);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    transition:background-color .3s ease, transform 0.2s ease; /* Transición para color y escala */
+}
+.btn-custom:hover {
+    background-color: #c0c0c0; /* Un gris más oscuro al pasar el mouse */
+}
+.btn-custom:active {
+  transform: scale(0.95);
+  border:2px solid #000;
+  color: #000;
+}
+/* Estilo para la tarjeta de contacto */
+.contact-card {
+    max-width: 1200px; /* Más ancha que la tarjeta estándar */
+    margin: 40px auto; /* Centrada con mayor separación */
+    padding: 30px; /* Más espacio interno */
+    background-color: #f8f9fa; /* Fondo claro */
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  }
+  
+  /* Imagen dentro de la tarjeta de contacto */
+  .contact-card .img-fluid {
+    height: 100%; /* Hace que la imagen llene su columna */
+    object-fit: cover; /* Mantiene las proporciones */
+    border-radius: 15px 0 0 15px; /* Bordes redondeados en un lado */
+  }
+  
+  /* Título de la tarjeta de contacto */
+  .contact-card .card-title {
+    font-size: 2.5rem; /* Más grande para destacar */
+    font-weight: bold;
+    color: var(--v6); /* Color definido previamente */
+    margin-bottom: 20px;
+  }
+  
+  /* Texto general de la tarjeta */
+  .contact-card .card-text {
+    font-size: 1.2rem; /* Texto más grande */
+    line-height: 1.8; /* Espaciado entre líneas */
+    color: #333;
+  }
+  
+  /* Lista de información de contacto */
+  .contact-info {
+    list-style-type: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+  }
+  
+  .contact-info li {
+    font-size: 1.1rem; /* Tamaño del texto */
+    margin-bottom: 10px; /* Espaciado entre líneas */
+  }
+  
+  .contact-info strong {
+    color: var(--bs-gray-dark); /* Resalta los títulos */
+  }
+  
+  /* Estilo responsivo */
+  @media (max-width: 768px) {
+    .contact-card {
+      padding: 20px; /* Menos espacio en pantallas pequeñas */
+    }
+    .contact-card .card-title {
+      font-size: 1.8rem; /* Reduce el tamaño del título */
+    }
+    .contact-card .card-text, .contact-info li {
+      font-size: 1rem; /* Ajusta el texto */
+    }
+  }
+  
+
+  /* Estilo para la tarjeta de envío de correo */
+.email-card {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Imagen dentro de la tarjeta de correo */
+  .email-card .img-fluid {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px 0 0 15px;
+  }
+  
+  /* Título de la tarjeta de correo */
+  .email-card .card-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--v6);
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo de los campos del formulario */
+  .email-card .form-label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .email-card .form-control {
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+  .email-card .btn-primary {
+    background-color: var(--v6);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .email-card .btn-primary:hover {
+    background-color: var(--v8);
+  }
+  
+
+
+
+
+/* pie de página */
+.footer-custom {
+    background-color: var(--v8); /* Color de fondo desde las variables */
+    color: var(--v7); /* Color del texto */
+    font-size: 0.9rem;
+  }
+  
+  .footer-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .footer-custom ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .footer-custom ul li a {
+    text-decoration: none;
+    color: var(--v7); /* Mismo color que el texto */
+  }
+  
+  .footer-custom ul li a:hover {
+    color: var(--bs-black); /* Cambia de color al pasar el mouse */
+  }
+  
+  .social-icon {
+    text-decoration: none;
+    color: var(--v7);
+    font-weight: bold;
+  }
+  
+  .social-icon:hover {
+    color: var(--bs-black);
+  }
+  
