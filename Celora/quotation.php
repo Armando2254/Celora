@@ -1,12 +1,28 @@
 <?php
+
+
 session_start();
 
 if (empty($_SESSION["employeeNumber"])) {
     header("Location: login.php");
 }
 
-?>
 
+
+include 'conexion_bd.php';
+
+// Obtener cotizaciones
+$quotationsQuery = "SELECT * FROM quotation";
+$quotationsResult = $conexion->query($quotationsQuery);
+
+// Obtener proveedores
+$suppliersQuery = "SELECT id, legalName FROM supplier";
+$suppliersResult = $conexion->query($suppliersQuery);
+
+// Obtener requisiciones
+$requisitionsQuery = "SELECT requisition_id, description FROM requisiciones_sin_cotizacion";
+$requisitionsResult = $conexion->query($requisitionsQuery);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,8 +33,25 @@ if (empty($_SESSION["employeeNumber"])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
    
-    <link href="css/estilosReq.css" rel="stylesheet" >
+    <link href="css/estilosInicio.css" rel="stylesheet" >
 
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+
+        .navbar{
+    background-color: #50C878;
+}
+
+        .card {
+            
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 
@@ -55,266 +88,122 @@ if (empty($_SESSION["employeeNumber"])) {
 </nav>
 
 
-<!--AQUI EMPIEZA LO DEL BODY QUE NO ES UN NAVBAR-->
 
 
 
 
-<div class="container my-5">
+
+
+
+
+<div class="container mt-5">
+    <h1 class="mb-4">Cotizaciones</h1>
+
+    <!-- Botón para agregar nueva cotización -->
+    <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addQuotationModal">Agregar Cotización</button>
+
+    <!-- Mostrar cotizaciones como tarjetas -->
     <div class="row">
-        <?php
-        include "conexion_bd.php";
-        // Suponiendo que tienes una conexión a la base de datos
-        $query = "SELECT id, issueDate FROM quotation";
-        $result = $conexion->query($query);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '
-                <div class="col-md-4 mb-3">
-                    <div class="card ola" data-id="' . $row['id'] . '" style="cursor: pointer;">
-                        <div class="card-body">
-                            <h5 class="card-title">Quotation #' . $row['id'] . '</h5>
-                            <p class="card-text">' . $row['issueDate'] . '</p>
-                        </div>
+        <?php while ($row = $quotationsResult->fetch_assoc()) { ?>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Cotización #<?php echo $row['id']; ?></h5>
+                        <p>Fecha: <?php echo $row['issueDate']; ?></p>
+                        <p>Total: $<?php echo $row['total']; ?></p>
+                        <button class="btn btn-info" data-bs-toggle="modal" 
+                                data-bs-target="#quotationModal<?php echo $row['id']; ?>">Ver Detalles</button>
                     </div>
-                </div>';
-            }
-        }
-        ?>
-        <!--Este es la parte de la creacion de una nueva requisicion-->
-        <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm" onclick="mostrarModal()">
-                        <div class="card-body">
-                            <h5 class="card-title">AGREGAR UNA NUEVA REQUISICION</h5>
-                            <p class="card-text">aVER SI JALA</p>
-                            <p class="card-text text-muted">ajskkajskja</p>
+                </div>
+            </div>
+
+            <!-- Modal de detalles de la cotización -->
+            <div class="modal fade" id="quotationModal<?php echo $row['id']; ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detalles de Cotización #<?php echo $row['id']; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Aquí puedes cargar los detalles asociados desde PHP -->
+                            <p><strong>Subtotal:</strong> $<?php echo $row['subtotal']; ?></p>
+                            <p><strong>Proveedor ID:</strong> <?php echo $row['supplierId']; ?></p>
+                            <!-- Productos de la requisición asociada -->
+                            <h5>Productos:</h5>
+                            <ul>
+                                <?php
+                                $productsQuery = "SELECT p.name, pr.quantity FROM product p 
+                                    JOIN product_requisition pr ON p.code = pr.productCode
+                                    JOIN requisition r ON pr.requisitionId = r.id
+                                    WHERE r.id IN (SELECT requisitionId FROM report WHERE quotationId = '{$row['id']}')";
+                                $productsResult = $conexion->query($productsQuery);
+                                while ($product = $productsResult->fetch_assoc()) {
+                                    echo "<li>{$product['name']} - Cantidad: {$product['quantity']}</li>";
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
-    </div>
-
-
-
-
-
-
-    
-</div>
-
-<!-- Modal Bootstrap -->
-<div class="modal fade" id="requisitionModal" tabindex="-1" aria-labelledby="requisitionModalLabel" aria-hidden="true"  data-bs-backdrop="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="requisitionModalLabel">Detalle de Requisición</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="modal-content">
-                <!-- Aquí se cargará el contenido dinámico -->
-            </div>
-        </div>
+        <?php } ?>
     </div>
 </div>
 
-
-
-
-            
-
-<!-- Modal (ventana emergente) -->
-<div id="myModal" class="molde">
-    <div class="molde-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
-        
-        
-
-        
-        <?php
-// Incluir conexión a la base de datos
-include 'conexion_bd.php';
-
-// Funciones para obtener datos dinámicos
-function obtenerFolio($conexion) {
-    $query = "SELECT MAX(id) + 1 AS nuevoFolio FROM requisition";
-    $result = $conexion->query($query);
-    if ($row = $result->fetch_assoc()) {
-        return $row['nuevoFolio'] ?? 1; // Si no hay registros, empezar en 1
-    }
-    return 1;
-}
-
-function obtenerProductos($conexion) {
-    $query = "SELECT code, name FROM product";
-    $result = $conexion->query($query);
-    $options = "";
-    while ($row = $result->fetch_assoc()) {
-        $options .= "<option value=\"{$row['code']}\">{$row['name']}</option>";
-    }
-    return $options;
-}
-
-// Ahora puedes usar obtenerFolio() y obtenerProductos() en el HTML
-?>
-
-
-
-
-
-
-
-
-
-        
-        <h1>Crear Requisición</h1>
-        <form id="requisitionForm" method="POST" action="procesar_requisicion.php">
-            <!-- Campo de folio -->
-            <div class="mb-3">
-                <label for="folio" class="form-label">Folio</label>
-                <input type="text" id="folio" name="folio" class="form-control" value="<?php echo obtenerFolio($conexion); ?>" readonly>
-            </div>
-
-            <!-- Lista de productos -->
-            <div id="productos-container">
-                <div class="producto-item row g-3 align-items-center">
-                    <div class="col-md-6">
-                        <label for="producto-1" class="form-label">Producto</label>
-                        <select name="productos[]" id="producto-1" class="form-select">
-                            <?php echo obtenerProductos($conexion); ?>
+<!-- Modal para agregar nueva cotización -->
+<div class="modal fade" id="addQuotationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="add_quotation.php" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Cotización</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="text" name="id" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="issueDate" class="form-label">Fecha de emisión</label>
+                        <input type="date" name="issueDate" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" step="0.01" name="total" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subtotal" class="form-label">Subtotal</label>
+                        <input type="number" step="0.01" name="subtotal" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplierId" class="form-label">Proveedor</label>
+                        <select name="supplierId" class="form-select" required>
+                            <?php while ($supplier = $suppliersResult->fetch_assoc()) { ?>
+                                <option value="<?php echo $supplier['id']; ?>"><?php echo $supplier['legalName']; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label for="cantidad-1" class="form-label">Cantidad</label>
-                        <input type="number" name="cantidades[]" id="cantidad-1" class="form-control" min="1" value="1" required>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-sm eliminar-producto" disabled>Eliminar</button>
+                    <div class="mb-3">
+                        <label for="requisitionId" class="form-label">Requisición</label>
+                        <select name="requisitionId" class="form-select" required>
+                            <?php while ($requisition = $requisitionsResult->fetch_assoc()) { ?>
+                                <option value="<?php echo $requisition['requisition_id']; ?>"><?php echo $requisition['description']; ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
-            </div>
-
-            <!-- Botón para añadir otro producto -->
-            <div class="mb-3">
-                <button type="button" id="agregarProducto" class="btn btn-primary btn-sm">Añadir otro producto</button>
-            </div>
-
-            <!-- Descripción -->
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" rows="3" required></textarea>
-            </div>
-
-            <!-- Fecha actual -->
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="text" id="fecha" name="fecha" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
-            </div>
-
-            <!-- Botón de enviar -->
-            <div class="mb-3">
-                <button type="submit" class="btn btn-success">Crear Requisición</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
             </div>
         </form>
-    
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const productosContainer = document.getElementById("productos-container");
-            const agregarProductoBtn = document.getElementById("agregarProducto");
-
-            agregarProductoBtn.addEventListener("click", () => {
-                const productoCount = productosContainer.children.length + 1;
-
-                // Crear nuevo grupo de campos
-                const newProductoItem = document.createElement("div");
-                newProductoItem.classList.add("producto-item", "row", "g-3", "align-items-center");
-                newProductoItem.innerHTML = `
-                    <div class="col-md-6">
-                        <label for="producto-${productoCount}" class="form-label">Producto</label>
-                        <select name="productos[]" id="producto-${productoCount}" class="form-select">
-                            <?php echo obtenerProductos($conexion); ?>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="cantidad-${productoCount}" class="form-label">Cantidad</label>
-                        <input type="number" name="cantidades[]" id="cantidad-${productoCount}" class="form-control" min="1" value="1" required>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-sm eliminar-producto">Eliminar</button>
-                    </div>
-                `;
-
-                productosContainer.appendChild(newProductoItem);
-                actualizarBotonesEliminar();
-            });
-
-            productosContainer.addEventListener("click", (event) => {
-                if (event.target.classList.contains("eliminar-producto")) {
-                    const productoItem = event.target.closest(".producto-item");
-                    if (productosContainer.children.length > 1) {
-                        productoItem.remove();
-                        actualizarBotonesEliminar();
-                    }
-                }
-            });
-
-            function actualizarBotonesEliminar() {
-                const botonesEliminar = document.querySelectorAll(".eliminar-producto");
-                botonesEliminar.forEach((btn) => {
-                    btn.disabled = productosContainer.children.length <= 1;
-                });
-            }
-        });
-    </script>
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Footer -->
     <footer class="text-center py-3 border-top">
         <small>&copy; 2024 Empresa. Todos los derechos reservados.</small>
@@ -322,11 +211,8 @@ function obtenerProductos($conexion) {
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
-<script src="js/funcQuo.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body> 
 </html>

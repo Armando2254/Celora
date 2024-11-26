@@ -18,6 +18,17 @@ if (empty($_SESSION["employeeNumber"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
    
     <link href="css/estilosReq.css" rel="stylesheet" >
+    <style>
+        /* Estilo personalizado para el botón */
+        .btn-custom {
+            background-color: #50C878;
+            color: white; /* Texto blanco para contraste */
+        }
+
+        .btn-custom:hover {
+            background-color: #45b568; /* Color ligeramente más oscuro al pasar el mouse */
+        }
+    </style>
 
 </head>
 <body>
@@ -55,6 +66,10 @@ if (empty($_SESSION["employeeNumber"])) {
 </nav>
 
 
+<div class="container mt-5">
+        <!-- Botón Inicio alineado a la izquierda -->
+        <a href="inicio.php" class="btn btn-custom">Inicio</a>
+    </div>
 <!--AQUI EMPIEZA LO DEL BODY QUE NO ES UN NAVBAR-->
 
 
@@ -65,7 +80,7 @@ if (empty($_SESSION["employeeNumber"])) {
         <?php
         include "conexion_bd.php";
         // Suponiendo que tienes una conexión a la base de datos
-        $query = "SELECT id, description FROM requisition";
+        $query = "SELECT id, description, status FROM requisition";
         $result = $conexion->query($query);
 
         if ($result->num_rows > 0) {
@@ -76,7 +91,14 @@ if (empty($_SESSION["employeeNumber"])) {
                         <div class="card-body">
                             <h5 class="card-title">Requisición #' . $row['id'] . '</h5>
                             <p class="card-text">' . $row['description'] . '</p>
-                        </div>
+                                            
+<p class="card-text" style="color: ' . (($row['status'] == 'Reject' || $row['status'] == 'Pending') ? 'red' : '#50C878') . ';">' . $row['status'] . '</p>
+
+
+
+
+
+                            </div>
                     </div>
                 </div>';
             }

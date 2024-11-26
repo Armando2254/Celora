@@ -11,6 +11,9 @@ if (!empty($_POST["btnIniciar"])) {
             $_SESSION["employeeNumber"] = $datos->employeeNumber;
             $_SESSION["firstName"] = $datos->firstName;
             $_SESSION["lastName"] = $datos->lastName;
+            $_SESSION["userType"] = $datos->userType;
+
+
             header("Location: inicio.php");
         } else {
             echo "<div>Acceso Denegado</div>";

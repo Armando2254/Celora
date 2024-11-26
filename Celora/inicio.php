@@ -5,7 +5,7 @@ if (empty($_SESSION["employeeNumber"])) {
     header("Location: login.php");
 }
 
-$hola = $_SESSION["employeeNumber"];
+$hola = $_SESSION["userType"];
 
 ?>
 
@@ -79,25 +79,25 @@ $hola = $_SESSION["employeeNumber"];
 
 
     <!-- Contenido principal -->
-    <div class="container my-5">
+    <div class="container my-5 justify-content-center">
         <div class="row d-flex justify-content-between">
             <!-- Tarjeta 1 -->
             <div class="col col-lg-3 col-mx-auto">
             <a href="req.php" class="text-decoration-none">
                 <div class="card text-center">
-                    <img src="expediente.png" class="card-img-top mx-auto mt-4" alt="Opción 1" style="width: 100px; height: auto;">
+                    <img src="expediente.png" class="card-img-top mx-auto mt-4" alt="Opción 2" style="width: 100px; height: auto;">
                     <div class="card-body">
-                        <h5 class="card-title">Requisiciones</h5>
-                        <p class="card-text">Enviar o gestionar requisiciones</p>
+                        <h5 class="card-title">Requisition</h5>
+                        <p class="card-text">Ver y agregar cotizaciones</p>
                     </div>
                 </div>
-                </a>
+      </a>
             </div>
           
             <!-- Tarjeta 2 -->
-            <?php if ($hola == 1): ?>
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3 col-mx-auto">
-            <a href="#" class="text-decoration-none">
+            <a href="quotation.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="presupuesto.png" class="card-img-top mx-auto mt-4" alt="Opción 2" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -110,7 +110,9 @@ $hola = $_SESSION["employeeNumber"];
             <?php endif; ?>
 
             <!-- Tarjeta 3 -->
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3">
+            <a href="supplier.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="camion-de-reparto.png" class="card-img-top mx-auto mt-4 mb-n5" alt="Opción 3" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -118,9 +120,12 @@ $hola = $_SESSION["employeeNumber"];
                         <p class="card-text">Descripción breve</p>
                     </div>
                 </div>
+            </a>
             </div>
-
+            <?php endif; ?>
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3">
+            <a href="products.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="caja-del-paquete.png" class="card-img-top mx-auto mt-4" alt="Opción 3" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -128,11 +133,12 @@ $hola = $_SESSION["employeeNumber"];
                         <p class="card-text">Descripción breve</p>
                     </div>
                 </div>
+            </a>
             </div>
-
+            <?php endif; ?>
             
         </div>
-    </div>
+    
 
 
 
@@ -144,8 +150,9 @@ $hola = $_SESSION["employeeNumber"];
     <div class="container my-5">
         <div class="row d-flex justify-content-between">
             <!-- Tarjeta 1 -->
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3 col-mx-auto">
-            <a href="#" class="text-decoration-none">
+            <a href="purchaseOrder.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="licencias.png" class="card-img-top mx-auto mt-4" alt="Opción 1" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -155,10 +162,11 @@ $hola = $_SESSION["employeeNumber"];
                 </div>
                 </a>
             </div>
-          
+            <?php endif; ?>
             <!-- Tarjeta 2 -->
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3 col-mx-auto">
-            <a href="#" class="text-decoration-none">
+            <a href="payment.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="efectivo.png" class="card-img-top mx-auto mt-4" alt="Opción 2" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -168,8 +176,11 @@ $hola = $_SESSION["employeeNumber"];
                 </div>
       </a>
             </div>
+
+            <?php endif; ?>
             <!-- Tarjeta 3 -->
             <div class="col col-lg-3">
+            <a href="profile.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="usuario.png" class="card-img-top mx-auto my-4" alt="Opción 3" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -177,9 +188,24 @@ $hola = $_SESSION["employeeNumber"];
                         <p class="card-text">Descripción breve</p>
                     </div>
                 </div>
+            </a>
             </div>
 
+
+
+
+
+
+
+
+
+
+
+            
+            
+            <?php if ($hola == 'u2'): ?>
             <div class="col col-lg-3">
+            <a href="employee.php" class="text-decoration-none">
                 <div class="card text-center">
                     <img src="feria-de-trabajo.png" class="card-img-top mx-auto mt-4" alt="Opción 3" style="width: 100px; height: auto;">
                     <div class="card-body">
@@ -187,12 +213,13 @@ $hola = $_SESSION["employeeNumber"];
                         <p class="card-text">Descripción breve</p>
                     </div>
                 </div>
+            </a>
             </div>
-
+            <?php endif; ?>
             
         </div>
     </div>
-
+    </div>
 
 
 

@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fecha = $_POST['fecha'] ?? date('Y-m-d');
     $productos = $_POST['productos'] ?? [];
     $cantidades = $_POST['cantidades'] ?? [];
+    $status = 'Pending';
 
     if (empty($productos) || empty($cantidades) || count($productos) !== count($cantidades)) {
         die("Error: Productos y cantidades no coinciden o están vacíos.");
@@ -28,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Insertar en la tabla requisition
         $requiredQuantity = array_sum($cantidades);
         $insertRequisition = $conexion->prepare(
-            "INSERT INTO requisition (id, date, description, requiredQuantity, requester) VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO requisition (id, date, description, requiredQuantity, requester, status) VALUES (?, ?, ?, ?, ?, ?)"
         );
-        $insertRequisition->bind_param("issii", $folio, $fecha, $descripcion, $requiredQuantity, $hola);
+        $insertRequisition->bind_param("issiis", $folio, $fecha, $descripcion, $requiredQuantity, $hola, $status);
 
         if (!$insertRequisition->execute()) {
             throw new Exception("Error al insertar en requisition: " . $insertRequisition->error);
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conexion->commit();
 
         echo "Requisición creada correctamente.";
-        header: "prueba_copy.php";
+        header("Location: req.php");
     } catch (Exception $e) {
         // Revertir cambios en caso de error
         $conexion->rollback();
