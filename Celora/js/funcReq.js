@@ -108,3 +108,24 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+    // Función para actualizar el estado de la requisición
+    function updateStatus(id, status) {
+        fetch('update_status.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Estado actualizado correctamente.');
+                location.reload(); // Recargar la página para reflejar cambios
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }

@@ -164,16 +164,38 @@ $result = $conn->query($query);
                     </div>
                     <div class="mb-3">
                         <label for="departmentCode" class="form-label">Department Code</label>
-                        <input type="text" class="form-control" name="departmentCode" required>
+
+
+                        <select class="form-control" name="departmentCode" required>
+        <option value="" disabled selected>Seleccione un departamento</option>
+        <?php
+        include 'conexion_bd.php';
+        if ($conexion->connect_error) {
+            die("Error de conexión: " . $conexion->connect_error);
+        }
+        
+        // Obtener los departamentos
+        $sql = "SELECT code, name FROM department";
+        $result = $conexion->query($sql);
+        
+        
+        if ($result->num_rows > 0) {
+            // Recorrer los resultados y crear opciones
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . htmlspecialchars($row['code']) . "'>" . htmlspecialchars($row['name']) . "</option>";
+            }
+        } else {
+            echo "<option value='' disabled>No hay departamentos disponibles</option>";
+        }
+        ?>
+    </select>
+                        
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" name="password" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="userType" class="form-label">User Type</label>
-                        <input type="text" class="form-control" name="userType" required>
-                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -197,33 +219,4 @@ $result = $conn->query($query);
 
 </body> 
 </html>
-
-
-
-<?php
-// Conexión a la base de datos
-$conn = new mysqli("localhost", "root", "", "CelorA");
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
-// Obtener datos del formulario
-$firstName = $_POST['firstName'];
-$lastName = $_POST['lastName'];
-$secondLastName = $_POST['secondLastName'];
-$departmentCode = $_POST['departmentCode'];
-$password = $_POST['password'];
-$userType = $_POST['userType'];
-
-// Insertar en la base de datos
-$query = "INSERT INTO employee (firstName, lastName, secondLastName, departmentCode, password, userType) 
-          VALUES ('$firstName', '$lastName', '$secondLastName', '$departmentCode', '$password', '$userType')";
-if ($conn->query($query) === TRUE) {
-    header("Location: index.php"); // Redirige a la página principal
-} else {
-    echo "Error: " . $query . "<br>" . $conn->error;
-}
-
-$conn->close();
-?>
 

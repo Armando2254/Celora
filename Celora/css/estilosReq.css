@@ -104,3 +104,19 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para mejor apariencia */
     border-radius: 8px; /* Esquinas redondeadas */
         }
+
+        /* Si el elemento tiene un ID */
+#crear-nueva-requisicion {
+    background-color: #007bff; /* Fondo azul */
+    color: white; /* Texto blanco para mejor contraste */
+    padding: 20px; /* Espaciado interno opcional */
+    border-radius: 5px; /* Esquinas redondeadas opcionales */
+}
+
+/* Si el elemento tiene una clase */
+.crear-nueva-requisicion {
+    background-color: #007bff; /* Fondo azul */
+    color: white; /* Texto blanco para mejor contraste */
+    padding: 20px; /* Espaciado interno opcional */
+    border-radius: 5px; /* Esquinas redondeadas opcionales */
+}

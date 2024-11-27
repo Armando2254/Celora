@@ -12,6 +12,7 @@ if (!empty($_POST["btnIniciar"])) {
             $_SESSION["firstName"] = $datos->firstName;
             $_SESSION["lastName"] = $datos->lastName;
             $_SESSION["userType"] = $datos->userType;
+            $_SESSION["departmentCode"] = $datos->departmentCode;
 
 
             header("Location: inicio.php");
